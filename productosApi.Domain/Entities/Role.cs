@@ -1,0 +1,7 @@
+namespace productosApi.Domain.Entities;
+
+public enum Role
+{
+        User,
+        Admin
+}
