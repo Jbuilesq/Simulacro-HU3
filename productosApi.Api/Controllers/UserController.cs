@@ -35,13 +35,13 @@ namespace productosApi.Api.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        
-        public async Task<IActionResult> Create(User user)
-        {
-            var created = await _userService.Create(user);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-        }
+        // [HttpPost]
+        //
+        // public async Task<IActionResult> Create(User user)
+        // {
+        //     var created = await _userService.Create(user);
+        //     return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        // }
 
         [HttpPut("{id}")]
         // [Authorize]

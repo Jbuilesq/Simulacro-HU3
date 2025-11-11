@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using productosApi.Domain.Entities;
 using productosApi.Domain.Interfaces;
 using productosApi.Infrastructure.Data;
@@ -9,5 +10,10 @@ public class UserRepository : Repository<User>, IUserRepository
     public UserRepository(AppDbContext context) : base(context)
     {
         
+    }
+    
+    public async Task<User> GetByUsernameAsync(string username)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 }

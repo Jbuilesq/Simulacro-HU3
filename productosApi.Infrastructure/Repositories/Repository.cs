@@ -55,4 +55,9 @@ public class Repository<T> : IRepository<T> where T : class
     {
         return await _dbContext.Set<T>().FindAsync(email); 
     }
+
+    public async Task<T> GetByUsernameAsync(string username)
+    {
+        return await _dbContext.Set<T>().FindAsync(username);
+    }
 }

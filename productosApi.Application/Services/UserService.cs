@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using productosApi.Application.Dto;
 using productosApi.Application.Interfaces;
 using productosApi.Domain.Entities;
 using productosApi.Domain.Interfaces;
@@ -27,23 +28,23 @@ public class UserService : IUserService
         return await _repository.FindByIdAsync(id);
     }
 
-    public async Task<User> Create(User user)
+    public async Task<User> Create(RegisterRequestDto user)
     {
         if (string.IsNullOrWhiteSpace(user.Username))
             throw new ArgumentException("El nombre de usuario es obligatorio.");
         if (string.IsNullOrWhiteSpace(user.Email))
             throw new ArgumentException("El email es obligatorio.");
-        if (string.IsNullOrWhiteSpace(user.PasswordHash))
+        if (string.IsNullOrWhiteSpace(user.Password))
             throw new ArgumentException("La contraseña es obligatoria.");
 
-        var existing = await _repository.GetByEmailAsync(user.Email);
-        if (existing != null)
+        var existingUser = await _repository.GetByEmailAsync(user.Email);
+        if (existingUser != null)
             throw new InvalidOperationException("Ya existe un usuario con ese correo.");
 
         // Hash de la contraseña
-        user.PasswordHash = HashPassword(user.PasswordHash);
+        user.Password = HashPassword(user.Password);
 
-        return await _repository.AddAsync(user);
+        return await _repository.AddAsync(existingUser);    
     }
 
     public async Task<User> Update(User user)

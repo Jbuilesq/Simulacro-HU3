@@ -9,5 +9,6 @@ public interface IRepository<T> where T  : class
     Task DeleteAsync(T entity);
     Task SavChangesAsync();
     Task<T> GetByEmailAsync(string email);
+    Task<T> GetByUsernameAsync(string username);
     
 }   
