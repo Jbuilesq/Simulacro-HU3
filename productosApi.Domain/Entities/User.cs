@@ -8,5 +8,4 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public Role Role { get; set; } = Role.User;
     
-    public ICollection<Product> Products { get; set; } = new List<Product>();
 }

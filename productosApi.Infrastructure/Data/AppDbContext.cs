@@ -22,10 +22,5 @@ public class AppDbContext : DbContext
             .HasIndex(u => u.Username)
             .IsUnique();
         
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.User)
-            .WithMany(u => u.Products)
-            .HasForeignKey(p => p.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -36,7 +36,7 @@ namespace productosApi.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        
         public async Task<IActionResult> Create(User user)
         {
             var created = await _userService.Create(user);
