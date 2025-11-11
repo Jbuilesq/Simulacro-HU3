@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using productosApi.Application.Interfaces;
 using productosApi.Application.Services;
 using productosApi.Domain.Interfaces;
 using productosApi.Infrastructure.Data;
@@ -29,8 +30,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 //---Servicios
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<IUserService,  UserService>();
+builder.Services.AddScoped<IProductService,  ProductService>();
 
 //---Controllers
 builder.Services.AddControllers();
@@ -38,6 +39,11 @@ builder.Services.AddControllers();
 
 
 var app = builder.Build();
+
+
+//Exponer las rutas de los controllers
+
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -17,7 +17,7 @@ namespace productosApi.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAll();
@@ -25,7 +25,7 @@ namespace productosApi.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _userService.GetById(id);
@@ -44,7 +44,7 @@ namespace productosApi.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Update(int id, User user)
         {
             if (id != user.Id)
@@ -55,7 +55,7 @@ namespace productosApi.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _userService.Delete(id);
