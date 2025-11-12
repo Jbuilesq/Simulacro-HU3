@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using productosApi.Application.Dto;
-using productosApi.Application.Interfaces;
 using productosApi.Domain.Entities;
 using productosApi.Domain.Interfaces;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
@@ -25,55 +24,51 @@ public class AuthService
     public async Task<string> Autenticate(string username, string password)
     {
         var user = await _userRepository.GetByUsernameAsync(username);
-        if (user == null) return null;
-        
-        //Verificar hash 
+        if (user == null || string.IsNullOrEmpty(user.PasswordHash)) return null;
+
         bool passwordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
         if (!passwordValid) return null;
-        
-        //Generar token clains
-        var calims = new[]
+
+        var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
             new Claim(ClaimTypes.Role, user.Role.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-        
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!));
+
+        var keyString = _configuration["Jwt:Key"];
+        if (string.IsNullOrEmpty(keyString))
+            throw new Exception("JWT Key configuration missing");
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["JWT:ValidIssuer"],
-            audience: _configuration["JWT:ValidAudience"],
-            claims: calims,
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
+            claims: claims,
             expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: cred
         );
+
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public async Task<User> UserRegisterAsync(RegisterRequestDto register)
     {
-        // Verificar si el usuario ya existe
         var existingUser = await _userRepository.GetByUsernameAsync(register.Username);
-        if (existingUser != null) 
+        if (existingUser != null)
             throw new Exception("El usuario ya existe.");
 
-        // Crear el usuario
         var user = new User
         {
             Username = register.Username,
             Email = register.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(register.Password),
-            Role = Role.User // por defecto
+            Role = Role.User
         };
 
-        // Guardar en la base de datos
         await _userRepository.AddAsync(user);
-
         return user;
     }
-    
-    
 }

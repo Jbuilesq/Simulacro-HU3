@@ -1,35 +1,34 @@
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using productosApi.Application.Dto;
+using productosApi.Application.Interfaces;
 using productosApi.Application.Services;
 
 namespace productosApi.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
-    private readonly UserService _userService;
-    
-    public  AuthController(AuthService authService,  UserService userService)
+    private readonly IUserService _userService;
+
+    public AuthController(AuthService authService, IUserService userService)
     {
         _authService = authService;
         _userService = userService;
     }
 
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequest)
     {
         var token = await _authService.Autenticate(loginRequest.Username, loginRequest.Password);
         if (token == null)
-        {
-            return Unauthorized(new{message = "Username or password is incorrect"});
-        }
-        return Ok(new{token});
+            return Unauthorized(new { message = "Usuario o contraseña incorrecta" });
+
+        return Ok(new { token });
     }
-    
-    [HttpPost("register")]
+
+    [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto register)
     {
         try

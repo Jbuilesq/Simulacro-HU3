@@ -51,13 +51,13 @@ public class Repository<T> : IRepository<T> where T : class
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<T> GetByEmailAsync(string email)
-    {
-        return await _dbContext.Set<T>().FindAsync(email); 
-    }
+    // public async Task<T> GetByEmailAsync(string email)
+            // {
+            //     return await _dbContext.Set<T>().FindAsync(email); 
+            // }
 
-    public async Task<T> GetByUsernameAsync(string username)
-    {
-        return await _dbContext.Set<T>().FindAsync(username);
-    }
+    // public async Task<T> GetByUsernameAsync(string username)
+    // {
+    //     return await _dbContext.Set<T>().FindAsync(username);
+    // }
 }

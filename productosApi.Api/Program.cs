@@ -80,6 +80,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//Importante para mostrar los controllers
+
 app.MapControllers();
 var summaries = new[]
 {
