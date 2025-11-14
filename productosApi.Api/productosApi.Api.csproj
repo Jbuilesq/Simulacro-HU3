@@ -21,7 +21,6 @@
     <ProjectReference Include="..\productosApi.Application\productosApi.Application.csproj" />
     <ProjectReference Include="..\productosApi.Infrastructure\productosApi.Infrastructure.csproj" />
   </ItemGroup>
-e
   <ItemGroup>
     <Content Include="..\.dockerignore">
       <Link>.dockerignore</Link>
