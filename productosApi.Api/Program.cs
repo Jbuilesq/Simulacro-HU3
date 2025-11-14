@@ -21,8 +21,8 @@ builder.Services.AddSwaggerGen();
 
 // conection to DB
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
 
 //añadimos los repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

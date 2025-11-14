@@ -48,7 +48,7 @@ public class UserService : IUserService
         await _repository.AddAsync(user);
         return user;
     }
-
+    
     public async Task<User> Update(User user)
     {
         var existing = await _repository.FindByIdAsync(user.Id);

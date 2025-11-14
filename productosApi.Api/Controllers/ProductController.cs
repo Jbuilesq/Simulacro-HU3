@@ -24,15 +24,15 @@ namespace productosApi.Api.Controllers
             return Ok(products);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var product = await _productService.GetById(id);
-            if (product == null)
-                return NotFound();
+            [HttpGet("{id}")]
+            public async Task<IActionResult> GetById(int id)
+            {
+                var product = await _productService.GetById(id);
+                if (product == null)
+                    return NotFound();
 
-            return Ok(product);
-        }
+                return Ok(product);
+            }
 
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
